@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Error</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+  <h2 class="text-2xl font-bold text-red-600 text-center mb-6">Error</h2>
+  <p class="text-center text-gray-700">Status: <span th:text="${status}"></span></p>
+  <p class="text-center text-gray-700" th:text="${error}"></p>
+  <a th:href="${redirectUrl} "
+     class="block w-full bg-blue-600 text-white py-2 px-4 rounded-md text-center hover:bg-blue-700 mt-4">
+    Back to the main page
+  </a>
+</div>
+</body>
+</html>

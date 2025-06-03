@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Login</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN for Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleIcon.classList.remove('fa-eye');
+      toggleIcon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      toggleIcon.classList.remove('fa-eye-slash');
+      toggleIcon.classList.add('fa-eye');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', (event) => {
+        const buttonText = document.getElementById('buttonText');
+        const spinner = document.getElementById('spinner');
+        if (buttonText && spinner) {
+          buttonText.classList.add('hidden');
+          spinner.classList.remove('hidden');
+        }
+      });
+    }
+  });
+</script>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg card">
+  <!-- Logo -->
+  <div class="flex justify-center mb-6">
+    <img th:src="@{/images/lofi.jpg}" alt="App Logo"
+         class="h-16 w-16 rounded-full shadow-md logo-animation object-cover"/>
+  </div>
+
+  <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Welcome Back</h2>
+
+  <!-- Error Message -->
+  <div th:if="${param.error}" class="mb-4 p-4 bg-red-100 text-red-700 rounded-md flex items-center">
+    <i class="fas fa-exclamation-circle mr-2"></i>
+    Invalid username or password.
+  </div>
+
+  <!-- Logout/Expired Message -->
+<!--  <div th:if="${message}"-->
+<!--       class="mb-4 p-4 bg-green-100 text-green-700 rounded-md flex items-center">-->
+<!--    <i class="fas fa-check-circle mr-2"></i>-->
+<!--    <span th:value="${message}"></span>-->
+<!--  </div>-->
+
+  <!-- Login Form -->
+  <form id="loginForm" method="post" th:action="@{/master/login}" class="space-y-6">
+    <!-- CSRF Token -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <div class="relative">
+      <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+      <div class="mt-1 flex items-center">
+        <i class="fas fa-user absolute left-3 text-gray-400"></i>
+        <input type="text" id="username" name="username" required
+               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+               placeholder="Enter your username"/>
+      </div>
+    </div>
+    <div class="relative">
+      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+      <div class="mt-1 flex items-center">
+        <i class="fas fa-lock absolute left-3 text-gray-400"></i>
+        <input type="password" id="password" name="password" required
+               class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+               placeholder="Enter your password"/>
+        <button type="button" onclick="togglePassword()"
+                class="absolute right-3 text-gray-400 hover:text-gray-600">
+          <i class="fas fa-eye" id="toggleIcon"></i>
+        </button>
+      </div>
+    </div>
+    <button type="submit"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 flex items-center justify-center">
+      <span id="buttonText">Log In</span>
+      <i id="spinner" class="fas fa-spinner fa-spin hidden ml-2"></i>
+    </button>
+  </form>
+
+  <!-- Divider -->
+  <div class="my-6 flex items-center">
+    <hr class="flex-grow border-gray-300"/>
+    <span class="mx-4 text-gray-500">or</span>
+    <hr class="flex-grow border-gray-300"/>
+  </div>
+
+  <!-- Identity Provider Login -->
+  <div class="space-y-4">
+    <a th:href="@{/master/oauth2/authorization/keycloak}"
+       class="block w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 px-4 rounded-md text-center hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 flex items-center justify-center">
+      <i class="fas fa-key mr-2"></i> Login with Keycloak
+    </a>
+    <a th:href="@{/oauth2/authorization/google}"
+       class="block w-full bg-red-600 text-white py-2 px-4 rounded-md text-center hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 flex items-center justify-center">
+      <i class="fab fa-google mr-2"></i> Login with Google
+    </a>
+  </div>
+</div>
+</body>
+</html>

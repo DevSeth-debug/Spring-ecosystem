@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.example.bpa: trace
+    org.springframework.web: INFO
+    org.springframework.security: trace
+    org.springframework.security.oauth2: trace
+    com.nimbusds: trace
+spring:
+  thymeleaf:
+    cache: false
+
+tenant:
+  name: master
+  email: master@example.com

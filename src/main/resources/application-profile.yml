@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ${SPRING_APP_NAME:user-app}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
